@@ -83,7 +83,9 @@ export default function VerifyPageClient() {
 
 					<form onSubmit={handleSubmit} className='space-y-6'>
 						<div>
-							<label className='text-sm font-medium'>Code</label>
+							<label className='text-sm font-medium'>
+								Enter Verification Code
+							</label>
 							<div className='flex gap-2 mt-2'>
 								{code.map((digit, index) => (
 									<input
@@ -98,7 +100,7 @@ export default function VerifyPageClient() {
 												e.target.value
 											)
 										}
-										className='w-10 h-10 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent'
+										className='md:w-10 md:h-10 w-8 h-8 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent'
 									/>
 								))}
 							</div>

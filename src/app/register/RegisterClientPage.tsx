@@ -33,6 +33,7 @@ export default function RegisterClientPage() {
 			const data = await response.data;
 
 			if (response.status === 200) {
+				toast.success(data.message);
 				router.push(`/verify?email=${encodeURIComponent(email)}`);
 			} else {
 				setError(data.error || "Registration failed");
@@ -69,7 +70,7 @@ export default function RegisterClientPage() {
 							<Input
 								id='name'
 								type='text'
-								placeholder='Enter'
+								placeholder='Enter your name'
 								value={name}
 								onChange={(e) => setName(e.target.value)}
 								required
@@ -86,7 +87,7 @@ export default function RegisterClientPage() {
 							<Input
 								id='email'
 								type='email'
-								placeholder='Enter'
+								placeholder='Enter your email'
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								required
@@ -103,7 +104,7 @@ export default function RegisterClientPage() {
 							<Input
 								id='password'
 								type='password'
-								placeholder='Enter'
+								placeholder='Enter your password'
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 								required

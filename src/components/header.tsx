@@ -50,7 +50,7 @@ export default function Header() {
 		<header className='w-full'>
 			<div className='bg-white border-b px-4 py-2'>
 				<div className='max-w-7xl mx-auto flex justify-between items-center text-sm'>
-					<div className='flex space-x-6'>
+					<div className='hidden md:flex space-x-6'>
 						<Link href='/help' className='hover:text-gray-600'>
 							Help
 						</Link>
@@ -58,16 +58,18 @@ export default function Header() {
 							Orders & Returns
 						</Link>
 					</div>
-					<div className='flex items-center space-x-4'>
+					<div className='flex items-center mx-auto md:mx-0 space-x-4'>
 						{user ? (
-							<>
-								<span>Hi, {user.name}</span>
+							<div className='flex items-center space-x-4'>
+								<span className='text-sm font-medium hover:text-gray-600'>
+									Hi, {user.name}
+								</span>
 								<button
 									onClick={handleLogout}
-									className='text-sm hover:text-gray-600'>
+									className='text-sm font-medium hover:text-gray-600'>
 									Logout
 								</button>
-							</>
+							</div>
 						) : (
 							<Link href='/login' className='hover:text-gray-600'>
 								Login
@@ -83,7 +85,7 @@ export default function Header() {
 						ECOMMERCE
 					</Link>
 
-					<nav className='flex space-x-8'>
+					<nav className='hidden md:block space-x-8'>
 						<Link
 							href='/categories'
 							className='hover:text-gray-600'>

@@ -107,7 +107,7 @@ export default function HomePage() {
 			}
 		} else {
 			if (currentPage <= 4) {
-				pages.push(1, 2, 3, 4, 5, "...", totalPages);
+				pages.push(1, 2, 3, "...", totalPages);
 			} else if (currentPage >= totalPages - 3) {
 				pages.push(
 					1,
@@ -156,7 +156,7 @@ export default function HomePage() {
 							typeof page === "number" && setCurrentPage(page)
 						}
 						disabled={typeof page !== "number"}
-						className='px-3'>
+						className='px-2'>
 						{page}
 					</Button>
 				))}

@@ -74,7 +74,7 @@ export default function LoginPageClient() {
 							<Input
 								id='email'
 								type='email'
-								placeholder='Enter'
+								placeholder='Enter your email'
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								required
@@ -92,7 +92,7 @@ export default function LoginPageClient() {
 								<Input
 									id='password'
 									type={showPassword ? "text" : "password"}
-									placeholder='Enter'
+									placeholder='Enter your password'
 									value={password}
 									onChange={(e) =>
 										setPassword(e.target.value)
