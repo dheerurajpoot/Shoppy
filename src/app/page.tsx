@@ -72,7 +72,6 @@ export default function HomePage() {
 			const response = await axios.get("/api/user/interests");
 			if (response.status === 200) {
 				const data = await response.data;
-				console.log(data);
 				setSelectedCategories(data.selectedCategories);
 			}
 		} catch (error) {
@@ -89,7 +88,6 @@ export default function HomePage() {
 
 		// Save to backend
 		try {
-			console.log("Saving interests:", newSelected);
 			await axios.post("/api/categories", {
 				selectedCategories: newSelected,
 			});
@@ -192,8 +190,6 @@ export default function HomePage() {
 			</div>
 		);
 	}
-	console.log(selectedCategories);
-	console.log(categories);
 
 	return (
 		<div className='min-h-screen bg-gray-50'>

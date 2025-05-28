@@ -56,10 +56,12 @@ export default function VerifyPageClient() {
 				setError(data.error || "Verification failed");
 				toast.error(data.error || "Verification failed");
 			}
-		} catch (error: any) {
-			console.error("Verification error:", error);
-			setError("An error occurred. Please try again.");
-			toast.error(error.response.data.error);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error("Verification error:", error);
+				setError("An error occurred. Please try again.");
+				toast.error(error.message);
+			}
 		} finally {
 			setIsLoading(false);
 		}

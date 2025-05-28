@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart } from "lucide-react";
+import { ChevronLeft, Search, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -24,8 +24,10 @@ export default function Header() {
 			}
 			const userData = JSON.parse(localStorage.getItem("user")!);
 			setUser(userData);
-		} catch (error: any) {
-			console.error("Failed to fetch user:", error);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error("Failed to fetch user:", error);
+			}
 		}
 	};
 	useEffect(() => {
@@ -34,17 +36,18 @@ export default function Header() {
 
 	const handleLogout = async () => {
 		try {
-			await axios.post("/api/auth/logout");
+			await axios.get("/api/auth/logout");
 			localStorage.removeItem("user");
 			window.location.href = "/login";
-		} catch (error: any) {
-			console.error("Logout failed:", error);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error("Logout failed:", error);
+			}
 		}
 	};
 
 	return (
 		<header className='w-full'>
-			{/* Top bar */}
 			<div className='bg-white border-b px-4 py-2'>
 				<div className='max-w-7xl mx-auto flex justify-between items-center text-sm'>
 					<div className='flex space-x-6'>
@@ -74,7 +77,6 @@ export default function Header() {
 				</div>
 			</div>
 
-			{/* Main header */}
 			<div className='bg-white border-b px-4 py-4'>
 				<div className='max-w-7xl mx-auto flex justify-between items-center'>
 					<Link href='/' className='text-2xl font-bold'>
@@ -108,10 +110,10 @@ export default function Header() {
 				</div>
 			</div>
 
-			{/* Promo banner */}
 			<div className='bg-gray-100 py-3'>
-				<div className='max-w-7xl mx-auto text-center'>
-					<span className='text-sm'>
+				<div className='max-w-7xl mx-auto flex justify-center items-center text-center'>
+					<span className='text-sm flex items-center space-x-2'>
+						<ChevronLeft />
 						Get 10% off on business sign up
 					</span>
 				</div>

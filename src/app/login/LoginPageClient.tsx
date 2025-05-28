@@ -39,10 +39,12 @@ export default function LoginPageClient() {
 				setError(data.error || "Login failed");
 				toast.error(data.error || "Login failed");
 			}
-		} catch (error: any) {
-			console.error("Login error:", error);
-			setError("An error occurred. Please try again.");
-			toast.error(error.response.data.error);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error("Login error:", error);
+				setError("An error occurred. Please try again.");
+				toast.error(error.message);
+			}
 		} finally {
 			setIsLoading(false);
 		}

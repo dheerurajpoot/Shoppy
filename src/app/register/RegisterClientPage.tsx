@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function RegisterClientPage() {
 	const [name, setName] = useState("");
@@ -35,10 +36,14 @@ export default function RegisterClientPage() {
 				router.push(`/verify?email=${encodeURIComponent(email)}`);
 			} else {
 				setError(data.error || "Registration failed");
+				toast.error(data.error || "Registration failed");
 			}
-		} catch (error) {
-			console.error("Registration error:", error);
-			setError("An error occurred. Please try again.");
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error("Registration error:", error);
+				setError("An error occurred. Please try again.");
+				toast.error(error.message);
+			}
 		} finally {
 			setIsLoading(false);
 		}
