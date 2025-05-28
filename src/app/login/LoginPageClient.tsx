@@ -126,7 +126,7 @@ export default function LoginPageClient() {
 
 					<div className='text-center mt-6'>
 						<span className='text-gray-600'>
-							Don't have an Account?{" "}
+							Don&apos;t have an Account?{" "}
 						</span>
 						<Link
 							href='/register'

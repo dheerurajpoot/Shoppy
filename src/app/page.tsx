@@ -48,6 +48,7 @@ export default function HomePage() {
 				router.push("/login");
 			}
 		} catch (error) {
+			console.error("Failed to check authentication:", error);
 			router.push("/login");
 		}
 	};
