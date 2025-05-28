@@ -39,10 +39,10 @@ export default function HomePage() {
 		}
 	}, [currentPage, isAuthenticated]);
 
-	const checkAuth = async () => {
+	const checkAuth = () => {
 		try {
-			const response = await axios.get("/api/user/profile");
-			if (response.status === 200) {
+			const user = localStorage.getItem("user");
+			if (user) {
 				setIsAuthenticated(true);
 			} else {
 				router.push("/login");
@@ -72,6 +72,7 @@ export default function HomePage() {
 			const response = await axios.get("/api/user/interests");
 			if (response.status === 200) {
 				const data = await response.data;
+				console.log(data);
 				setSelectedCategories(data.selectedCategories);
 			}
 		} catch (error) {
@@ -80,7 +81,7 @@ export default function HomePage() {
 	};
 
 	const handleCategoryToggle = async (categoryId: string) => {
-		const newSelected = selectedCategories.includes(categoryId)
+		const newSelected = selectedCategories?.includes(categoryId)
 			? selectedCategories.filter((id) => id !== categoryId)
 			: [...selectedCategories, categoryId];
 
@@ -88,6 +89,7 @@ export default function HomePage() {
 
 		// Save to backend
 		try {
+			console.log("Saving interests:", newSelected);
 			await axios.post("/api/categories", {
 				selectedCategories: newSelected,
 			});
@@ -190,6 +192,8 @@ export default function HomePage() {
 			</div>
 		);
 	}
+	console.log(selectedCategories);
+	console.log(categories);
 
 	return (
 		<div className='min-h-screen bg-gray-50'>
@@ -215,7 +219,7 @@ export default function HomePage() {
 									className='flex items-center space-x-3'>
 									<Checkbox
 										id={category.id}
-										checked={selectedCategories.includes(
+										checked={selectedCategories?.includes(
 											category.id
 										)}
 										onCheckedChange={() =>

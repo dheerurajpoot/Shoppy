@@ -26,6 +26,12 @@ const userModel = new mongoose.Schema(
 		forgotPasswordTokenExpiry: Date,
 		verificationCode: String,
 		verificationCodeExpiry: Date,
+		selectedCategories: [
+			{
+				type: String,
+				default: [],
+			},
+		],
 	},
 	{ timestamps: true }
 );

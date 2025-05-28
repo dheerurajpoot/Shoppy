@@ -1,19 +1,13 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { faker } from "@faker-js/faker";
+import { NextRequest, NextResponse } from "next/server";
+import { User } from "@/models/user";
+import jwt from "jsonwebtoken";
+import { connectDb } from "./db";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
-}
-
-export interface User {
-	id: string;
-	name: string;
-	email: string;
-	password: string;
-	isVerified: boolean;
-	verificationCode?: string;
-	selectedCategories: string[];
 }
 
 export interface Category {
@@ -23,13 +17,9 @@ export interface Category {
 	icon: string;
 }
 
-// In-memory storage (in production, use a real database)
-export const users: User[] = [];
-export const sessions: Map<string, string> = new Map(); // token -> userId
-
 // Generate 100 categories using faker.js
 export const categories: Category[] = Array.from({ length: 100 }, (_, i) => {
-	faker.seed(i + 1); // Ensure consistent data
+	faker.seed(i + 1);
 	return {
 		id: `cat-${i + 1}`,
 		name: faker.commerce.department(),
@@ -63,10 +53,26 @@ export function generateVerificationCode(): string {
 	return Math.floor(10000000 + Math.random() * 90000000).toString();
 }
 
-export function getUserFromToken(token: string | undefined): User | null {
-	if (!token || !sessions.has(token)) {
-		return null;
+export async function getUserFromToken(request: NextRequest) {
+	await connectDb();
+	const token = request.cookies.get("auth-token")?.value;
+	if (!token) {
+		return NextResponse.json({
+			success: false,
+			message: "No token found",
+		});
 	}
-	const userId = sessions.get(token)!;
-	return users.find((u) => u.id === userId) || null;
+
+	const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+		userId: string;
+	};
+	const user = await User.findById(decoded.userId).select("-password");
+	if (!user) {
+		return NextResponse.json({
+			success: false,
+			message: "User not found",
+		});
+	}
+
+	return user;
 }
